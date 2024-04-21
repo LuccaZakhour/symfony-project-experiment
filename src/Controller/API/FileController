@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Controller\API;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\File;
+
+class FileApiController extends AbstractController
+{
+    #[Route('/api/files', name: 'api_files')]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $searchTerm = $request->query->get('q', '');
+        $files = $entityManager->getRepository(File::class)->findBySearchTerm($searchTerm);
+
+        $responseData = array_map(function ($file) {
+            return ['id' => $file->getId(), 'text' => $file->getName()];
+        }, $files);
+
+        return $this->json($responseData);
+    }
+}

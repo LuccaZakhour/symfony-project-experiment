@@ -1,0 +1,29 @@
+<!-- Initial Setup 16.4.2024 -->
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+    var API_ENDPOINT = '{{ API_ENDPOINT }}';
+    console.log(API_ENDPOINT); // Or any other JavaScript logic you need
+</script>
+
+<input type="text" class="fileSelector" name="files">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    new TomSelect('.fileSelector',{
+        valueField: 'id',
+        labelField: 'text',
+        searchField: 'text',
+        create: false,
+        load: function(query, callback) {
+            if (!query.length) return callback();
+            fetch(API_ENDPOINT + `/api/files?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(json => callback(json))
+                .catch(() => callback());
+        }
+    });
+});
+</script>

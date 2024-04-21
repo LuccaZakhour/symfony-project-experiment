@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="dev" type="CompoundRunConfigurationType">
+    <toRun name="symfony serve" type="ShConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,7 @@
+{% extends '@!EasyAdmin/crud/detail.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% include 'admin/field/partial/init-barcode-render.html.twig' %}
+{% endblock %}

@@ -1,0 +1,144 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{# this is a bit ugly, but Twig doesn't have a 'is numeric' test #}
+{% if field.formattedValue matches '/^\\d+$/' %}
+    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
+{% else %}
+    {# Assuming Bootstrap is available for styling #}
+    <div id="fixedSectionName" class="fixed-top bg-white py-2 px-4" style="z-index: 1030; display: none;">
+        <div class="row">
+            <div class="col-2 ps-3">
+                <h4 id="currentSectionName">Default Section Name</h4>
+            </div>
+            <div class="col-10 text-center">
+                <h4 id="centeredSectionName">{{ entity.instance.name }}</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="field-value ms-2">
+
+
+        {% set counter = 0 %}
+        {% for section in entity.instance.sections %}
+            {% set counter = counter + 1 %}
+            <div class="row mb-3">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="w-50">
+                            <div class="col-md-6">
+                                <h4 id="section-{{ counter }}" class="section">
+                                    {{ section.name }}
+                                </h4>
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="2">
+                            {% if section.type == 'procedure' %}
+                                <div class="col-12">
+                                    <p>{{ section.description | raw }}</p>
+                                </div>
+                            {% endif %}
+                            {# Check if the section type is 'paragraph' to display its description #}
+                            {% if section.type == 'paragraph' %}
+                                <div class="col-12">
+                                    <p>{{ section.description | raw }}</p>
+                                </div>
+                            {% endif %}
+                            {% if section.type == 'samplesOut' or section.type == 'samplesIn' %}
+                                <div class="col-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th style="width: 15%;">Type</th>
+                                            <th style="width: 15%;">BarCode</th>
+                                            <th style="width: 15%;">CreatedAt</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for sample in section.samples %}
+                                            {% set detailUrl = path('admin', {
+                                                'crudControllerFqcn': 'App\\Controller\\Admin\\SampleCrudController',
+                                                'crudAction': 'detail',
+                                                'entityId': sample.id
+                                            }) %}
+                                            {% set sampleTypeDetailUrl = path('admin', {
+                                                'crudControllerFqcn': 'App\\Controller\\Admin\\SampleTypeCrudController',
+                                                'crudAction': 'detail',
+                                                'entityId': sample.sampleType.id
+                                            }) %}
+                                            <tr>
+                                                <td><a href="{{ detailUrl }}">{{ sample.name }}</a></td>
+                                                <td style="width: 15%;"><a href="{{ sampleTypeDetailUrl }}">{{ sample.sampleType }}</a></td>
+                                                <td style="width: 15%;">{{ sample.barcode }}</td>
+                                                <td style="width: 15%;">{{ date(sample.createdAt)|date('Y-m-d H:i:s') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                            {% if section.type == 'file' %}
+                                <div class="col-12">
+
+                                    {% for file in section.files %}
+                                        
+                                        {% set fileExtension = get_file_extension(file.filePath) %}
+                                        {% set downloadPath = file.filePath %}
+                                        {% set downloadFileName = file.filename %}
+                                        {% if fileExtension %}
+                                            {% set downloadPath = get_public_file_path(file.filePath) %}
+                                        {% endif %}
+                                        <a href="{{ downloadPath }}" download="{{ downloadFileName }}">Download {{ downloadFileName }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if section.type == 'image' %}
+                                <div class="col-12">
+
+                                    {% for file in section.files %}
+                                        {% set fileExtension = get_file_extension(file.filePath) %}
+                                        {% set downloadPath = file.filePath %}
+                                        {% set downloadFileName = file.filename %}
+                                        {% if fileExtension %}
+                                            {% set downloadPath = get_public_file_path(file.filePath) %}
+                                        {% endif %}
+                                        <a href="{{ downloadPath }}" download="{{ downloadFileName }}">Download {{ downloadFileName }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {# Add other properties and conditions here as needed #}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        {% endfor %}    
+
+    </div>
+
+    <style>
+    /* Hide all labels in EasyAdmin detail view */
+    .field-group.field-collection > .field-label {
+        /*display: none;*/
+    }
+
+    {% if entity.name == 'Experiment' %}
+        #tab-experiment-detail .field-label {
+            display: none;
+        }
+    {% endif %}
+
+    html {
+        scroll-behavior: smooth;
+    }
+    </style>
+
+{% endif %}

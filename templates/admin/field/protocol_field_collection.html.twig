@@ -1,0 +1,53 @@
+{% if field.formattedValue matches '/^\\d+$/' %}
+    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
+{% else %}
+    <div id="fixedSectionName" class="fixed-top bg-white py-2 px-4" style="z-index: 1030; display: none;">
+        <h4 id="currentSectionName" class="ps-3">Default Section Name</h4>
+    </div>
+    <div class="field-value ms-2">
+        <div class="row mb-3">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th class="w-20">Name</th>
+                    <th>Value</th>
+                    <th>StepID</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set counter = 0 %}
+                {% for field in entity.instance.fields %}
+                    <tr>
+                        <td class="w-20">
+                            <p id="section-{{ counter }}" class="section">
+                            {{ field.name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p>{{ field.value|raw }}</p>
+                        </td>
+                        <td>
+                            <p>{{ field.stepId }}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <style>
+        /* Hide all labels in EasyAdmin detail view */
+        .field-group.field-collection > .field-label {
+            display: none;
+        }
+
+    </style>
+
+    {% if entity.name == 'Protocol' or entity.name == 'ProtocolField' %}
+        <script src="{{ asset('admin/js/protocol.js') }}"></script>
+    {% endif %}
+
+    {% include 'admin/field/partial/fixed_toolbar.html.twig' %}
+{% endif %}

@@ -1,0 +1,33 @@
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the <span> elements inside <td> with data-column="barcode"
+    const barcodeSpans = document.querySelectorAll('td[data-column="barcode"] span');
+
+    barcodeSpans.forEach((span) => {
+        const barcodeNumber = span.textContent.trim();
+        if (barcodeNumber !== 'Null') {
+            // Create an SVG element for the barcode
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+            // Generate the barcode using JsBarcode
+            JsBarcode(svg, barcodeNumber, {
+                format: "CODE128",
+                lineColor: "#000",
+                width: 1,
+                height: 30,
+                displayValue: true,
+                fontSize: 14,
+            });
+
+            // Clear the <span> and append the SVG
+            span.textContent = '';
+
+            span.appendChild(svg);
+        }
+    });
+});
+
+</script>
+

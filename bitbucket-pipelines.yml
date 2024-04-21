@@ -1,0 +1,137 @@
+image: atlassian/default-image:2
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: API
+          image: php:8.2
+          caches:
+            - composer
+          script:
+            - apt-get update && apt-get install -y unzip
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+            - composer install --no-interaction --no-progress --prefer-dist --no-scripts --optimize-autoloader --apcu-autoloader --classmap-authoritative
+
+            - php bin/console assets:install -n
+
+            - npm install -g yarn
+            - yarn install --force
+
+            - tar cfz app.tar.gz bin config migrations public src templates translations vendor
+          artifacts:
+            - app.tar.gz
+
+#      - step:
+#          name: Deployment
+#          deployment: Test
+#          image: atlassian/default-image:2
+#          script:
+#            - pipe: atlassian/sftp-deploy:0.5.5
+#              variables:
+#                SERVER: $SERVER
+#                USER: $USER
+#                LOCAL_PATH: api-test.tar.gz
+#                REMOTE_PATH: ${DIRECTORY}
+#                EXTRA_ARGS: '-P ${PORT} -oStrictHostKeyChecking=false'
+#            - pipe: atlassian/ssh-run:0.3.0
+#              variables:
+#                SERVER: $SERVER
+#                SSH_USER: $USER
+#                MODE: 'script'
+#                COMMAND: 'bitbucket-deploy.sh'
+#                PORT: ${PORT}
+#                ENV_VARS: >-
+#                  PHP=${PHP}
+#                  ROOT_PATH=${DIRECTORY}
+#                  RELEASE_PATH=${DIRECTORY}/test/application
+#                  BUILD_PATH_CODE=${DIRECTORY}/api-test.tar.gz
+
+    production:
+      - step:
+          name: API
+          image: php:8.2
+          caches:
+            - composer
+          script:
+            - echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/bitbucket-pipelines.ini
+            - curl -sL https://deb.nodesource.com/setup_20.x | bash -
+            - apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev nodejs unzip zip libzip-dev
+            - docker-php-ext-install -j$(nproc) gd
+            - docker-php-ext-install -j$(nproc) zip
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            - touch .env
+            - echo API_ENDPOINT=https://app.labowl.cloud >> .env
+            - echo JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem >> .env
+            - echo JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem >> .env
+            - echo JWT_PASSPHRASE=492dd0f5663ca0311aca4fb28b9f5f5d >> .env
+            - echo CORS_ALLOW_ORIGIN='*' >> .env
+            - echo DATABASE_HOST='128.140.61.107' >> .env
+            - echo DATABASE_ROOT='root' >> .env
+            - echo DATABASE_PASSWORD='8t9oGlt0OvF7' >> .env
+            - echo DATABASE_PREFIX='dev_remote_LabOwlCloud_' >> .env
+            - echo "EXPORT_DB_HOST='128.140.61.107'" >> .env
+            - echo "EXPORT_DB_USER='root'" >> .env
+            - echo "EXPORT_DB_PASSWORD='8t9oGlt0OvF7'" >> .env
+            - echo "EXPORT_DB_NAME_PREFIX='dev_export_LabOwlCloud_'" >> .env
+            - echo APP_SECRET='32c38a3b97072fd9b671bab6bbf48b85' >> .env
+            - echo UPLOAD_DIR='uploads' >> .env
+            - echo STRIPE_KEY='pk_test_51MJINFK3l7gk8SIfcZCkqSj7c66Rdmhy8zPa0Hv1roI6ZdeIfeZtkSdB42QiPvpfEjAG2B1oNNAEPolVWGu6b7jQ00AeqjTBgK' >> .env
+            - echo STRIPE_SECRET='sk_test_51MJINFK3l7gk8SIfgI802LgDUzQiSpZ91YNlqAO30R9J1HCjPpbHdY8ZXX0P5fA5fK6KyhJrgOJVlBR4RVnOT0T200sFJsnXdO' >> .env
+            - echo PHP_EXEC='php' >> .env
+            - echo EMAIL_SEND_FROM='no-reply@labowl.de' >> .env
+            - echo "EMAIL_SEND_FROM_NAME='LabOwl'" >> .env
+            - echo "MAIN_USER_EMAIL=toniilicdeveloper@gmail.com" >> .env
+            - echo "MANAGE_ENDPOINT=https://labowl-admin.mybrixx.dev/" >> .env
+            - echo "MESSENGER_TRANSPORT_DSN=sync://" >> .env
+            - echo MAILER_DSN=smtp://mailhog.agicad.com:1025 >> .env
+            - echo "EMAIL_FROM_NAME=LabOwl" >> .env
+            - echo "DEFAULT_LOCALE=de" >> .env
+            - echo "APP_FILES_PATH=../files" >> .env
+            - echo "CLIENTS_PATH=/usr/home/labowl/public_html/.clients" >> .env
+            - echo "APP_ADMIN_KEY=12_tO_ImPlEmEnT_34" >> .env
+            - echo "APP_DEBUG=0" >> .env
+            - composer install --no-interaction --no-progress --prefer-dist --no-scripts --optimize-autoloader --apcu-autoloader --classmap-authoritative
+            - export COMPOSER_ALLOW_SUPERUSER=1
+            - composer require symfony/runtime # to prevent bug: "Fatal error: Uncaught LogicException: Symfony Runtime is missing. Try running "composer require symfony/runtime". in /opt/atlassian/pipelines/agent/build/bin/console:9"
+            - php bin/console assets:install -n
+            - php bin/console lexik:jwt:generate-keypair --no-debug --env=prod
+            - echo "APP_ENV=prod" >> .env
+            - npm install -g yarn
+            - yarn install --force
+            - php bin/console cache:clear --env=prod
+            - sed -i -e 's/Header always set Access-Control-Allow-Origin:\ "*"/#Header always set Access-Control-Allow-Origin:\ "*"/g' public/.htaccess
+            - sed -i '/^APP_ENV=dev/d' .env
+            - sed -i '/^APP_DEBUG=1/d' .env
+            - cd public && mkdir -p "./uploads" >/dev/null 2>&1 && cd ..
+            - tar cfvz api-production.tar.gz bin config migrations public src templates vendor composer.json .env rerun_command.sh
+
+          artifacts:
+            - api-production.tar.gz
+
+      - step:
+          name: Deployment
+          deployment: Production
+          image: atlassian/default-image:2
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.5
+              variables:
+                SERVER: $SERVER
+                USER: $USER
+                LOCAL_PATH: api-production.tar.gz
+                REMOTE_PATH: ${DIRECTORY}
+                EXTRA_ARGS: '-P ${PORT} -oStrictHostKeyChecking=false'
+
+            - pipe: atlassian/ssh-run:0.3.0
+              variables:
+                SERVER: $SERVER
+                SSH_USER: $USER
+                MODE: 'script'
+                COMMAND: 'bitbucket-deploy.sh'
+                PORT: ${PORT}
+                ENV_VARS: >-
+                  PHP=${PHP}
+                  ROOT_PATH=${DIRECTORY}
+                  RELEASE_PATH=${DIRECTORY}/labowl_de_app
+                  BUILD_PATH_CODE=${DIRECTORY}/api-production.tar.gz

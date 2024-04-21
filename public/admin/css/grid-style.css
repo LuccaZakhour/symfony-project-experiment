@@ -1,0 +1,37 @@
+
+/* The CSS remains the same as you provided. */
+.controls {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.grid-container {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    max-width: 1000px;
+    margin: auto;
+    height: auto;
+    background-color: #f1f1f1;
+    border: 2px solid #ccc;
+}
+
+.grid-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.grid-item {
+    /* Styling for normal grid item */
+}
+
+.grid-item.taken {
+    background-color: red;
+}
+
+.grid-item.selected {
+    background-color: blue; /* Or any other color to indicate selection */
+}

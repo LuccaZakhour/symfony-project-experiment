@@ -1,0 +1,22 @@
+
+
+<script>
+    var API_ENDPOINT = '{{ API_ENDPOINT }}';
+    console.log(API_ENDPOINT); // Or any other JavaScript logic you need
+</script>
+
+<div id="loader" style="display: none;">
+    <p>Laden...</p> <!-- You can replace this with any spinner or loader animation -->
+</div>
+<div id="jstree"></div>
+
+
+
+<script src="{{ asset('lib/jquery-3.7.1.js') }}"></script>
+<script src="{{ asset('admin/js/js-tree-init.js') }}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+{# insert templates/admin/loader.html.twig with twig #}
+{% include 'admin/loader.html.twig' %}

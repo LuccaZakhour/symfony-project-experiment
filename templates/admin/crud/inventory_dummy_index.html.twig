@@ -1,0 +1,18 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block table_body %}
+
+    {% include 'admin/field/partial/inventory_tree.html.twig' %}
+
+{% endblock table_body %}
+
+{% block main %}
+    {{ parent() }}
+
+    <style>
+
+        .content-search .form-group {
+            display: none;
+        }
+    </style>
+{% endblock main %}

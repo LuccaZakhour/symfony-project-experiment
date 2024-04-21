@@ -1,0 +1,128 @@
+
+
+CustomerEntity: Kunde
+InstanceEntity: Instanzen
+ServerEntity: Server
+BackupEntity: Backup
+
+Experiment: Experiment
+Studies: Studien
+Projects: Projekte
+Protocols: Protokolle
+Experiments: Experimente
+DEBUG: DEBUGGEN
+Experiment Sections: Experimentabschnitte
+Protocol Fields: Protokollfelder
+Variables: Variablen
+Samples and Storages: Proben und Lagerung
+Samples: Proben
+Samples Series: Musterserie
+Storages: Speicher
+Links: Links
+Tasks: Aufgaben
+Supply and Orders: Angebot und Bestellungen
+Order Management: Auftragsverwaltung
+Supply Orders: Lieferaufträge
+Supply Order Items: Lieferauftragspositionen
+Orders: Aufträge
+Catalog Items: Katalogartikel
+Reservations: Reservierungen
+Equipment: Ausrüstung
+System and Miscellaneous: System und Sonstiges
+System Settings: Systemeinstellungen
+Time Zones: Zeitzonen
+Settings: Einstellungen
+Files: Dateien
+Users: Benutzer
+Group roles and permissions: Gruppenrollen und Berechtigungen
+Name: Name
+Protocol: Protokoll
+Study: Studie
+Project: Projekt
+Researchers: Forscher
+Created At: Hergestellt in
+Storage Types: Speichertypen
+Sample Series: Beispielserie
+Sample Types: Probentypen
+Groups roles and permissions: Gruppenrollen und Berechtigungen
+ID: AUSWEIS
+Study Name: Studienname
+Status: Status
+Lead Researcher: Leitender Forscher
+Description: Beschreibung
+Fields: Felder
+Attachments: Anhänge
+User: Benutzer
+Section: Abschnitt
+Image: Bild
+ProtocolField: Protokollfeld
+Variable: Variable
+Sample: Probe
+Sample Name: Probenna me
+Barcode: Barcode
+Updated At: Aktualisiert am
+Storage: Lagerung
+Parent Storage: Übergeordneter Speicher
+Position: Position
+SampleSeries: Beispielserie
+SampleType: Beispielstyp
+Sample Type Name: Name des Probentyps
+Background Color: Hintergrundfarbe
+Foreground Color: Vordergrundfarbe
+Storage Name: Speichername
+Storage Type: Speichertyp
+Hierarchical Storage: Hierarchische Speicherung
+Grid System: Rastersystem
+Position Taken: Eingenommene Position
+Grid Type: Gittertyp
+Level: Ebene
+StorageType: Speichertyp
+Storage Type Name: Name des Lagertyps
+Shape: Form
+Link: Verknüpfung
+Type: Typ
+URL: URL
+SupplyOrder: Lieferauftrag
+Order Number: Bestellnummer
+Order Date: Auftragsdatum
+Order Status: Bestellstatus
+Ordered By: Bestellt durch
+Requested: Angefordert
+SupplyOrderItem: SupplyOrderItem
+Item Name: Artikelname
+Quantity: Menge
+Price: Preis
+Supply Order: Lieferauftrag
+Order: Befehl
+Supplier: Anbieter
+Total Amount: Gesamtmenge
+CatalogItem: CatalogItem
+Sku: Artikelnummer
+Reservation: Reservierung
+Start Time: Startzeit
+End Time: Endzeit
+Reservation Code: Reservierungscode
+Is Active: Ist aktiv
+TimeZone: Zeitzone
+Offset: Versatz
+Is Default: Ist Standard
+ClientAppSetting: ClientAppSetting
+File: Datei
+Filename: Dateiname
+Filesize: Dateigröße
+Filetype: Dateityp
+Firstname: Vorname
+Lastname: Nachname
+Email: Email
+Roles: Rollen
+Is Verified: Ist bestätigt
+Enabled: Ermöglicht
+Removed At: Entfernt am
+Groups: Gruppen
+Researcher: Forscher
+Lab Technician: Labortechniker
+Technician: Techniker
+Group: Gruppe
+Permissions: Berechtigungen
+Signed At: Unterzeichnet bei
+Sign: Zeichen

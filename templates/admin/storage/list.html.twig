@@ -1,0 +1,20 @@
+{# templates/admin/storage/list.html.twig #}
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+<script>
+alert('list.html.twig');
+</script>
+
+{% block main %}
+    {% for level in 1..5 %} {# Adjust the range based on your levels #}
+        <h1>Level {{ level }}</h1>
+        <ul>
+        {% for storage in entities %}
+            {% if storage.level == level %}
+                <li>{{ storage.name }} - {{ storage.description }}</li>
+                {# Add more details as needed #}
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

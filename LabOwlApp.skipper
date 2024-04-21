@@ -1,0 +1,966 @@
+<?xml version="1.0"?>
+<skipper version="3.3.5.1818" mvc="Symfony" orm="Doctrine2" name="LabOwlApp" uuid="9f968a53-a1d6-4b0e-85f8-2d85f11f599b">
+  <module name="\src/Entity" local-name="src/Entity" namespace="\App\Entity" local-namespace="\App\Entity" export-format="Doctrine2PhpAttributes" export-path="src/Entity" uuid="c4b9400f-f2c6-4215-94ac-8a5e853e0a8a">
+    <entity name="\App\Entity\ExperimentUser" local-name="ExperimentUser" namespace="\App\Entity" uuid="a3e6c5b0-12fb-4386-8245-11c4c7ff7e03"/>
+    <many-to-many mn-entity="\App\Entity\ExperimentUser" uuid="add69e77-8751-4623-9e2f-62fa34cba957">
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" alias="experiments" uuid="8d4ee3f3-efaf-42e6-8f06-340cb1b33bbd"/>
+      <many-to-many-entity name="\App\Entity\User" owning-side="false" alias="researchers" uuid="d0fb08f9-2030-402a-8da9-0548eab04065"/>
+    </many-to-many>
+    <entity name="\App\Entity\GroupUser" local-name="GroupUser" namespace="\App\Entity" uuid="4362d3c1-bb3a-4fc1-be28-d0e04b8d42fe"/>
+    <many-to-many mn-entity="\App\Entity\GroupUser" uuid="2caa5c13-0735-43fb-87fb-26d69cc55ed9">
+      <many-to-many-entity name="\App\Entity\Group" owning-side="true" alias="groups" uuid="1bbed8c5-2eb8-4092-bd0a-52dfe58301e6"/>
+      <many-to-many-entity name="\App\Entity\User" owning-side="false" alias="users" uuid="67f26b8d-5c93-45ab-be60-d2804c34b8b4"/>
+    </many-to-many>
+    <entity name="\App\Entity\ProtocolTask" local-name="ProtocolTask" namespace="\App\Entity" uuid="5d4c550a-66de-4211-ada3-4c5f66526ff5"/>
+    <many-to-many mn-entity="\App\Entity\ProtocolTask" uuid="7c5c7998-b460-435e-89aa-a057bb5f8bda">
+      <many-to-many-entity name="\App\Entity\Protocol" owning-side="true" alias="protocols" uuid="f12564bf-724a-4a00-9d1e-c772522122a6"/>
+      <many-to-many-entity name="\App\Entity\Task" owning-side="false" alias="tasks" uuid="9dbc7c23-cc32-4f8a-9d76-19b15a083cf9"/>
+    </many-to-many>
+    <entity name="\App\Entity\TaskExperiment" local-name="TaskExperiment" namespace="\App\Entity" uuid="89d6fefe-ec95-4986-b3ec-7ac95686bc0c">
+      <field name="Task_id" type="integer" uuid="eae1349d-7ce2-4a4b-a704-fb414535eea3"/>
+      <field name="Experiment_id" type="integer" uuid="238e978b-7413-4de6-b9aa-fe45f535dd9f"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\TaskExperiment" uuid="4ab7a2cc-07a7-4e30-888b-e4c46ea430d7">
+      <many-to-many-entity name="\App\Entity\Task" owning-side="true" alias="tasks" uuid="e2cb07c0-cc87-422b-b824-7eb4143b251a">
+        <many-to-many-field from="Task_id" to="id" uuid="cb09b3ed-43e4-465f-b31f-fa38d70002c2"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="false" alias="experiments" uuid="44b6f9ba-c6bb-47b1-81ad-1803b9da9f97">
+        <many-to-many-field from="Experiment_id" to="id" uuid="11703287-15ae-4d20-a804-5a4462b55286"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="false" alias="experiments" uuid="88d343d0-1391-40ba-ade1-2ec4c3cd3914"/>
+    </many-to-many>
+    <entity name="\App\Entity\TaskSample" local-name="TaskSample" namespace="\App\Entity" uuid="a998dc5b-ab34-413b-afd0-7dd6890d000c">
+      <field name="Task_id" type="integer" uuid="38a49491-f27b-41d1-95c1-a16720c7a552"/>
+      <field name="Sample_id" type="integer" uuid="9431daa8-544a-48cc-8354-9861f1232aef"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\TaskSample" uuid="04aaf71f-c47a-452b-82d9-bc8cb5d0f87a">
+      <many-to-many-entity name="\App\Entity\Task" owning-side="true" uuid="c3aff80e-7458-4266-a95b-0a65dd003baa">
+        <many-to-many-field from="Task_id" to="id" uuid="311c797d-e466-4b51-8cc2-0fe7e8045b44"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="false" alias="samples" uuid="77ecb65b-e644-4364-88f3-8c434ed69cac">
+        <many-to-many-field from="Sample_id" to="id" uuid="8fa4ada4-ddf7-4132-b68e-b7b6c61d8656"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Task" owning-side="true" alias="tasks" uuid="8ceff43d-c5ca-4c32-af0b-afce7cd7f439"/>
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="false" alias="samples" uuid="f10d32e0-3b70-4ddd-b96b-b50a3a9669ce"/>
+    </many-to-many>
+    <entity name="\App\Entity\TaskProtocol" local-name="TaskProtocol" namespace="\App\Entity" uuid="52ee8cd9-bcf2-4667-b913-2f19fbfa01de">
+      <field name="Task_id" type="integer" uuid="dece9a9d-e4e7-41f8-aabf-cb59db00935e"/>
+      <field name="Protocol_id" type="integer" uuid="2c946cad-9cf9-4794-8416-5f8052f37f86"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\TaskProtocol" uuid="786ea790-7297-43f1-bcea-439f780e019b">
+      <many-to-many-entity name="\App\Entity\Task" owning-side="true" uuid="7fba8cd9-19e3-490c-89ec-beed8adc74e1">
+        <many-to-many-field from="Task_id" to="id" uuid="c5192807-9cb2-4a8a-af66-2f95ed292c57"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Protocol" owning-side="false" alias="protocols" uuid="bad7a1f4-d1e3-4497-b5bb-66d314428170">
+        <many-to-many-field from="Protocol_id" to="id" uuid="085e30cb-df51-457f-8e69-e2c7c99aaafe"/>
+      </many-to-many-entity>
+    </many-to-many>
+    <entity name="\App\Entity\experiment_protocols" local-name="experiment_protocols" namespace="\App\Entity" uuid="b115d624-7ca3-4ca5-ab2e-dee91ca79d2b">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="8764a558-afc8-4e55-bfaf-c5bbc6bf3bfa"/>
+      <field name="Experiment_id" type="integer" uuid="d7ea40cd-1d58-4e37-b071-c8cb108a2134"/>
+      <field name="Protocol_id" type="integer" uuid="2367f425-2dc5-4de1-b554-70f257699c2f"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\experiment_protocols" uuid="81a8be09-63de-43e8-8eb2-568c394ceac8">
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" uuid="0484aa92-7763-4f5f-b894-56ea2fe8fca9">
+        <many-to-many-field from="Experiment_id" to="id" uuid="d472a9ee-529d-4189-b4ac-80a7623fc85e"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Protocol" owning-side="false" alias="protocols" uuid="e82bf489-f96c-40f8-95ca-be51c775443f">
+        <many-to-many-field from="Protocol_id" to="id" uuid="a4a1d787-fa2b-4810-927e-cb25b8993f2a"/>
+      </many-to-many-entity>
+    </many-to-many>
+    <entity name="\App\Entity\Organisation" local-name="Organisation" namespace="\App\Entity" uuid="587b34ea-1c69-452e-b6b5-5bc4de03ef38">
+      <field name="id" type="integer" required="true" primary="true" uuid="e265de79-bdb5-4e86-bd3d-4f5829f14a15">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="bd9a8122-4406-47d5-b983-9aafa50da83e"/>
+      <field name="address" type="string" size="255" uuid="d6b331bd-e1f4-46f5-aab7-ac1670ef7849"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\OrganisationRepository</attribute>
+        <attribute name="export-file-name">Organisation.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\CatalogItem" local-name="CatalogItem" namespace="\App\Entity" uuid="38abe722-c033-4d0a-aa17-1b50da2b7036">
+      <field name="id" type="integer" required="true" primary="true" uuid="24afb8ef-e928-45cb-af11-6001a4dd6759">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="d063729a-4a80-4ce6-a048-4b2e6feb4c18"/>
+      <field name="sku" type="string" size="255" uuid="d82870a5-42ba-4395-9ad0-1777944e22a4"/>
+      <field name="price" type="decimal" required="true" uuid="c045f085-db8f-4051-a91b-51eee0502626">
+        <orm-attributes>
+          <attribute name="precision">10</attribute>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="description" type="text" uuid="57ae0b76-5a36-45ea-9182-11d6b82efb0c"/>
+      <field name="meta" type="json" uuid="8bac6d82-92ac-4fa1-a2bd-f1d7cb6b4baf"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\CatalogItemRepository</attribute>
+        <attribute name="export-file-name">CatalogItem.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\ClientAppSetting" local-name="ClientAppSetting" namespace="\App\Entity" uuid="43f92689-3fa8-4893-9ddc-5b183ca9a6c4">
+      <field name="id" type="integer" required="true" primary="true" uuid="7377462a-8e00-4a60-81d5-14f96c2694bf">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="d14c2ea2-49d8-4a93-956e-a98e78ad3678"/>
+      <field name="value" type="text" required="true" uuid="958bc627-c19f-4795-ba04-87e6d2b1c1f6"/>
+      <field name="description" type="string" size="255" uuid="351c5e2e-047c-4757-9307-7f7585e0e6f4"/>
+      <orm-attributes>
+        <attribute name="export-file-name">ClientAppSetting.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Equipment" local-name="Equipment" namespace="\App\Entity" uuid="a119113a-f91d-4bca-b659-7af72caa728a">
+      <field name="id" type="integer" required="true" primary="true" uuid="105af3ee-504f-439c-9b66-70e5db1fde74">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="62224a17-d437-43ad-a2be-7594ddfc6c4a"/>
+      <field name="description" type="text" uuid="90e10161-858d-42e5-a630-84716b675bf2"/>
+      <field name="serialNumber" type="string" size="255" uuid="4cead702-9842-4af9-8478-d32e48c0f0f8"/>
+      <field name="location" type="string" size="255" uuid="69434730-ca4b-46f8-951b-cb5f8367e842"/>
+      <field name="isActive" type="boolean" required="true" uuid="f9b2aafb-55ca-4cff-9c57-9f00cae1f29a"/>
+      <field name="organisation_id" uuid="602eefd4-c525-436f-9d92-5c369e9e4a25"/>
+      <field name="manufacturer" type="string" size="255" uuid="304da402-a15f-4380-b0dc-19b839c7cd63"/>
+      <field name="status" type="string" size="255" uuid="2dc2579f-9938-4f8d-a488-f031d956a58b"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\EquipmentRepository</attribute>
+        <attribute name="export-file-name">Equipment.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Equipment" to="\App\Entity\Organisation" owner-alias="" inverse-alias="organisation" many-owner="true" many-inverse="false" uuid="be572dcb-c78e-4033-9be8-8912bdd5a2cc">
+      <association-field from="organisation_id" to="id" uuid="38746df8-46c3-4864-8895-70b5c06836eb"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Experiment" local-name="Experiment" namespace="\App\Entity" uuid="215828b6-593c-4b19-8346-5394d8787218">
+      <field name="id" type="integer" required="true" primary="true" uuid="468a1c85-0c9b-4a03-924a-9992d9430c9a">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="41298c10-715c-4656-9b59-ba82db9d6f96"/>
+      <field name="description" type="text" uuid="e2625e33-8d72-4789-a6ad-30b428f8a9d0"/>
+      <field name="template_id" uuid="e0b72903-b811-4f04-a525-747a4e3fd074"/>
+      <field name="startDate" type="datetime" uuid="777d806f-4976-4021-9663-0b475a07689c"/>
+      <field name="endDate" type="datetime" uuid="eb382fe6-f437-4fca-b18c-2f4ec3f6371e"/>
+      <field name="protocols_id" uuid="e982c4af-752d-4c7e-ba33-535d7ed6d310"/>
+      <field name="signedBy" type="integer" uuid="3167c644-d3d0-41b6-9119-6fe1f25eb0fb"/>
+      <field name="signedAt" type="datetime_immutable" uuid="d26a7abc-dc46-45e1-830c-25e518ecc5e8"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\ExperimentRepository</attribute>
+        <attribute name="export-file-name">Experiment.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Experiment" to="\App\Entity\Template" owner-alias="" inverse-alias="template" many-owner="true" many-inverse="false" uuid="4170d0e8-500a-4ed2-9ceb-2ef249fe0d2b">
+      <association-field from="template_id" to="id" uuid="d341c730-0df4-43e1-8b79-0658a1447ed9"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Experiment" to="\App\Entity\Protocol" owner-alias="" inverse-alias="protocols" many-owner="true" many-inverse="false" uuid="3c97ed36-b9b7-41a8-ab5a-9c120f10f2e4">
+      <association-field from="protocols_id" to="id" uuid="4509564e-54e6-4a57-9792-ee3a6d207762"/>
+      <orm-attributes>
+        <attribute name="on-delete">SET NULL</attribute>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Experiment" to="\App\Entity\User" caption="User Experiments" owner-alias="signedExperiments" inverse-alias="signedBy" many-owner="true" many-inverse="false" uuid="0148b5e2-1bd7-4968-8e53-abd4f9348ada">
+      <association-field from="signedBy" to="id" uuid="0fb9ee31-f343-4524-b9b8-77f5993a8ce1"/>
+    </association>
+    <entity name="\App\Entity\experiment_samples" local-name="experiment_samples" namespace="\App\Entity" uuid="6a371ff8-a3e4-4921-9fde-c874004261f0">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="4cded748-1126-4772-b717-20f4d8abfa8a"/>
+      <field name="Experiment_id" type="integer" uuid="97b9f435-e214-4716-bd30-c7c2ed05cc6d"/>
+      <field name="Sample_id" type="integer" uuid="f14b4b26-8d4a-48b4-a58b-ebbeea361e7d"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\experiment_samples" uuid="1d986d18-928b-4380-8981-dfa6c5635e00">
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" uuid="af9beab7-00ea-4db3-9b87-3b5f2882de1d">
+        <many-to-many-field from="Experiment_id" to="id" uuid="0e507eb9-4044-4c2c-b68c-3510c1acf1e9"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="false" alias="samples" uuid="886fa605-9f7f-401d-8e6a-ffeda1831b1d">
+        <many-to-many-field from="Sample_id" to="id" uuid="ccb92f49-7818-44e4-9629-46099445e760"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" uuid="c29aea1f-7b93-4d93-b61c-db3b67096e6b"/>
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="false" alias="samples" uuid="c8e9766f-4f4e-4b6e-83f4-e63ede084c28"/>
+    </many-to-many>
+    <entity name="\App\Entity\task_management_experiment" local-name="task_management_experiment" namespace="\App\Entity" uuid="666aa682-8735-40d9-8c36-127bd1545417">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="da217630-d7c6-4328-bb4f-67a1ce48ad29"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\task_management_experiment" uuid="5828e994-55da-44bd-829c-32c134b02fa6">
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" uuid="273fca69-3231-4d96-9a03-0c2263d27303"/>
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="false" alias="taskManagements" uuid="3b2bc325-97ff-4629-acff-206dc1af2ccf"/>
+    </many-to-many>
+    <entity name="\App\Entity\study_experiment" local-name="study_experiment" namespace="\App\Entity" uuid="98d7b330-89e6-4cd8-ac8f-83841a8fc448">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="d2a1678d-ba48-412d-a310-21ca72f78532"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\study_experiment" uuid="78ef3499-d0ea-4830-a6a4-576f4c41fd60">
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="true" alias="experiments" uuid="88e6a633-c204-482b-ba51-4e35b7645e8c"/>
+      <many-to-many-entity name="\App\Entity\Study" owning-side="false" alias="studies" uuid="038dfabb-f8b0-4018-af70-7f980d95b3c5"/>
+    </many-to-many>
+    <entity name="\App\Entity\File" local-name="File" namespace="\App\Entity" uuid="904d7fdf-a2e9-4cae-b7a1-1093a2608a42">
+      <field name="id" type="integer" required="true" primary="true" uuid="d9502bf7-6ac6-427d-8143-83070b7fd121">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="filename" type="string" size="255" required="true" uuid="a43591f8-1eab-447f-a995-d7bea62bb124"/>
+      <field name="filetype" type="string" size="255" required="true" uuid="11e6d0c3-175b-46e8-86a2-2bf185a0dfe0"/>
+      <field name="filepath" type="text" uuid="22b8727d-2d54-450a-bae6-e2e3a8c4f091"/>
+      <field name="experiment_id" uuid="9bf9c990-635d-49a7-a5e9-0d9ee87d4a5e"/>
+      <field name="protocol_id" uuid="bf832146-1c80-443a-be4a-263215aaf839"/>
+      <field name="sample_id" uuid="e049a041-7416-435d-a9fc-ca32e9297036"/>
+      <field name="filesize" type="integer" required="true" uuid="633e3bae-4152-48e6-a1ba-7bb022cde546"/>
+      <field name="description" type="string" size="255" required="true" uuid="790c6081-66fe-416d-8672-d05345f7caa5"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\FileRepository</attribute>
+        <attribute name="export-file-name">File.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\File" to="\App\Entity\Experiment" owner-alias="" inverse-alias="experiment" many-owner="true" many-inverse="false" uuid="9310d023-3144-4237-9497-752783e6b92f">
+      <association-field from="experiment_id" to="id" uuid="bc8d2c77-ee0d-4257-877a-165ac99ffb01"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\File" to="\App\Entity\Protocol" owner-alias="" inverse-alias="protocol" many-owner="true" many-inverse="false" uuid="63abb40e-6021-4f21-a8ef-9038201191a7">
+      <association-field from="protocol_id" to="id" uuid="d2000dac-4d31-4586-a5a5-ce265a975eb1"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\File" to="\App\Entity\Sample" owner-alias="" inverse-alias="sample" many-owner="true" many-inverse="false" uuid="a5b41fd6-7ac6-44b1-a9b8-90ead5e709ed">
+      <association-field from="sample_id" to="id" uuid="6d0671a1-4c34-4567-8494-52f9548696d4"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Group" local-name="Group" namespace="\App\Entity" uuid="4ed4b0d4-713b-480e-beba-e9906df0d5dd">
+      <field name="id" type="integer" required="true" primary="true" uuid="f9b65498-2cb6-4710-8b0f-00ee8939d713">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="4ba0439c-55b5-4b64-b031-5ea1266b6014"/>
+      <field name="description" type="text" uuid="96f413bd-6278-46eb-8d1f-a8f0d1e4798e"/>
+      <field name="organisation_id" required="true" uuid="60d1545b-4801-4d8f-8ee9-80abdb1cc030"/>
+      <field name="role" type="string" size="50" uuid="c81387fa-4a94-4e96-9408-9aeafda1a35e"/>
+      <field name="permissions" type="array" uuid="30ac976b-c48d-41b8-99c3-7440e6afdc45"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\GroupRepository</attribute>
+        <attribute name="export-file-name">Group.php</attribute>
+        <attribute name="table">user_group</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Group" to="\App\Entity\Organisation" owner-alias="groups" inverse-alias="organisation" many-owner="true" many-inverse="false" parent-required="true" uuid="3dc993cc-5f00-4b91-8d0b-0fe6b5f5a348">
+      <association-field from="organisation_id" to="id" uuid="66482e1a-0e06-422d-96aa-3a0c7cffff0f"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Link" local-name="Link" namespace="\App\Entity" uuid="43ceb680-03c0-498f-ab61-30b41640def7">
+      <field name="id" type="integer" required="true" primary="true" uuid="c4c909a1-514f-4e0c-8dba-91f01770063e">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="type" type="string" size="255" required="true" uuid="bdc7193f-41b1-4ff8-8d6d-0762c473d8b6"/>
+      <field name="url" type="text" required="true" uuid="5cec7f2c-3967-4780-969f-406cca77202d"/>
+      <field name="label" type="string" size="255" uuid="d6515d82-a475-4a3c-9d99-ca4ad9995895"/>
+      <field name="createdAt" type="datetime" uuid="ba37fbdc-52e1-4293-971a-32db6b9f3072"/>
+      <field name="updatedAt" type="datetime" uuid="cc9f140e-baa2-4dd2-91f8-a4d7fa849b9a"/>
+      <field name="experiment_id" uuid="c316033f-2283-489a-a63b-efda5498103c"/>
+      <field name="sample_id" uuid="d4445f32-51df-48f4-b9b3-21f6a00d0040"/>
+      <field name="protocol_id" uuid="3122a47d-9649-4bac-a71a-4397c2848925"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\LinkRepository</attribute>
+        <attribute name="export-file-name">Link.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Link" to="\App\Entity\Experiment" owner-alias="" inverse-alias="experiment" many-owner="true" many-inverse="false" uuid="3df520a0-05f0-405b-bcc8-3120d33614ba">
+      <association-field from="experiment_id" to="id" uuid="084d3e21-3de6-4635-98b5-fd8956073e35"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Link" to="\App\Entity\Sample" owner-alias="links" inverse-alias="sample" many-owner="true" many-inverse="false" uuid="aeb8a8fd-263e-4445-b9f7-942f731aa44b">
+      <association-field from="sample_id" to="id" uuid="d82dc9ae-f94f-4744-ab82-d0c97a67dba7"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Link" to="\App\Entity\Protocol" owner-alias="links" inverse-alias="protocol" many-owner="true" many-inverse="false" uuid="c901361b-a8aa-4c3b-979e-cdaad7b4e677">
+      <association-field from="protocol_id" to="id" uuid="9fc24441-e99e-470f-b2ee-0453209a6528"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Location" local-name="Location" namespace="\App\Entity" uuid="14c95c78-fcdc-4161-a2e9-63890bec5b79">
+      <field name="id" type="integer" required="true" primary="true" uuid="ebb83a25-5645-4d1a-a481-126cdc5ca1ba">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="department" type="string" size="255" uuid="58874fd7-d9d1-43dc-b1ec-f610324c4ea7"/>
+      <field name="building" type="string" size="255" uuid="61cede69-f15c-452f-b8ed-8008fe89b24f"/>
+      <field name="floor" type="string" size="255" uuid="14e0dcfc-0253-478c-bce1-c1b97790d3e5"/>
+      <field name="room" type="string" size="255" uuid="d3f9009b-3603-41a1-af01-5ddf6be6903a"/>
+      <orm-attributes>
+        <attribute name="export-file-name">Location.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Order" local-name="Order" namespace="\App\Entity" uuid="912946aa-a143-491c-99f1-f31c7c783aeb">
+      <field name="id" type="integer" required="true" primary="true" uuid="f53a3060-0ec2-4b4a-b5af-4a16668f2e68">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="orderNumber" type="string" size="50" required="true" uuid="8b229f83-92d0-4e8d-a855-68b9223ba044"/>
+      <field name="orderDate" type="datetime" required="true" uuid="31089d0e-6655-4c3a-b9eb-4742c2100a26"/>
+      <field name="supplier" type="string" size="255" uuid="6883e2f4-1ecd-4af6-9e4f-5c1bb4586243"/>
+      <field name="status" type="string" size="50" uuid="18a0dc42-3f86-4cd7-b623-e5171cde0468"/>
+      <field name="orderedBy_id" required="true" uuid="bec918e1-88e1-4cb8-841b-15803857f999"/>
+      <field name="totalAmount" type="integer" uuid="828d3b71-3557-4e56-96c1-23a71e27dbb0"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\OrderRepository</attribute>
+        <attribute name="export-file-name">Order.php</attribute>
+        <attribute name="table">order_entity</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Order" to="\App\Entity\User" owner-alias="" inverse-alias="orderedBy" many-owner="true" many-inverse="false" parent-required="true" uuid="966d7d4d-a0e3-4418-8898-707c77d786cb">
+      <association-field from="orderedBy_id" to="id" uuid="7e1b07a9-72f1-4107-b4b8-09e802fd01b1"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Protocol" local-name="Protocol" namespace="\App\Entity" uuid="4daa0998-f759-4443-9f27-91f0ec72d25b">
+      <field name="id" type="integer" required="true" primary="true" uuid="7b1c30e4-c86e-4377-a6d1-c7b8b8dbceb4">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="4390e445-97ae-47f6-b18e-aa72286b38af"/>
+      <field name="description" type="text" required="true" uuid="c61cd201-a2c4-4968-95ac-db441e10a079"/>
+      <field name="steps" type="text" uuid="4353f2d5-5576-4d88-a306-7305d6ffd182"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\ProtocolRepository</attribute>
+        <attribute name="export-file-name">Protocol.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Reservation" local-name="Reservation" namespace="\App\Entity" uuid="54a79e23-82f3-4c4c-b9a0-54781a41d5e5">
+      <field name="id" type="integer" required="true" primary="true" uuid="dc09037a-be73-47ba-8df2-d3d521bef5d4">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="startTime" type="datetime" required="true" uuid="1244bde2-d5bc-4a91-a24e-4d2a7fc6b982"/>
+      <field name="endTime" type="datetime" required="true" uuid="af3700d0-a798-47c3-aed7-adf9ff06fbe1"/>
+      <field name="notes" type="text" uuid="d35f92d2-13bf-4cf5-8216-1a6fe0f5d4ea"/>
+      <field name="equipment_id" uuid="41ab8285-c143-4b34-8205-f97e7ee05fb3"/>
+      <field name="user_id" uuid="88fa2985-01e6-42ed-bdf6-622f62830d6d"/>
+      <field name="reservationCode" type="string" size="255" required="true" uuid="525e2e26-b240-48b3-90d3-85bb26d293a6"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\ReservationRepository</attribute>
+        <attribute name="export-file-name">Reservation.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Reservation" to="\App\Entity\Equipment" owner-alias="" inverse-alias="equipment" many-owner="true" many-inverse="false" uuid="fbeb84a8-c3b8-4ddb-9f72-f15d3f71069a">
+      <association-field from="equipment_id" to="id" uuid="34c08ebe-e058-4134-a969-2a8ad889e521"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Reservation" to="\App\Entity\User" owner-alias="" inverse-alias="user" many-owner="true" many-inverse="false" uuid="f93e595f-6019-4538-abea-bc7131a31e9a">
+      <association-field from="user_id" to="id" uuid="cf71a4d8-7bcd-4ea0-b8ec-5a43740779af"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Sample" local-name="Sample" namespace="\App\Entity" uuid="9185474d-d465-43a2-ba60-82e2dc2d3f2d">
+      <field name="id" type="integer" required="true" primary="true" uuid="d82969aa-0570-4b0d-ab34-464ed8e9af92">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="8d9881ab-340d-4a67-9697-7f8196c3c325"/>
+      <field name="barcode" type="string" size="255" uuid="a3c30ef5-b8e4-46c6-940a-6a3fa353d22e"/>
+      <field name="createdAt" type="datetime" required="true" uuid="70ad8c81-5da5-41bb-9890-bca0ac7eab17"/>
+      <field name="updatedAt" type="datetime" required="true" uuid="d1424679-4bb0-41d8-a26e-da2c7a9895e6"/>
+      <field name="sampleType_id" uuid="c61a4b50-79da-4ad2-8121-affc0c7e6a28"/>
+      <field name="experiment_id" uuid="d9886063-68e8-48b4-8201-1e740f6e44ff"/>
+      <field name="position" type="string" size="10" uuid="ae2c938b-4fbd-45db-9ec0-bbcf452f6aea"/>
+      <field name="storage_id" uuid="a3686280-e914-407d-b2cc-03ac6ac4da0a"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SampleRepository</attribute>
+        <attribute name="export-file-name">Sample.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Sample" to="\App\Entity\SampleType" owner-alias="samples" inverse-alias="sampleType" many-owner="true" many-inverse="false" uuid="a25348b8-ab8f-4072-970d-4ce9e4b0c035">
+      <association-field from="sampleType_id" to="id" uuid="41190862-890e-4022-bfdb-4d551e75627d"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Sample" to="\App\Entity\Experiment" owner-alias="" inverse-alias="experiment" many-owner="true" many-inverse="false" uuid="423da26a-3d5d-45e7-b7ee-c7293a5cd913">
+      <association-field from="experiment_id" to="id" uuid="e8bc2fac-52c8-4cbb-bbdf-67d41ff5b47c"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Sample" to="\App\Entity\Storage" owner-alias="samples" inverse-alias="storage" many-owner="true" many-inverse="false" uuid="f2f9a291-ea3f-4d00-888b-fdc6c05ce872">
+      <association-field from="storage_id" to="id" uuid="ee6ed2bf-339b-492c-9c3e-80cea8cd46f6"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\task_management_sample" local-name="task_management_sample" namespace="\App\Entity" uuid="60b490b1-753c-42d5-b37b-875a6f9b690f">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="c367f0b9-15bc-4124-9d6f-ce358e1f9df4"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\task_management_sample" uuid="942e1cd7-a4c4-4b4f-a4cc-f17268a78c92">
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="true" uuid="512da7cf-5a88-4769-9ead-61a15ac1d2a6"/>
+      <many-to-many-entity name="\App\Entity\Experiment" owning-side="false" alias="taskManagements" uuid="d08b2b49-79bd-4d6e-b150-c363d1a074ad"/>
+    </many-to-many>
+    <entity name="\App\Entity\study_sample" local-name="study_sample" namespace="\App\Entity" uuid="06778876-e485-4bc2-87f7-80d35ccfb453">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="2e069df2-2658-462e-b765-639bc0b8a997"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\study_sample" uuid="80453211-d51a-4a5d-ad18-fb1cbc66a41d">
+      <many-to-many-entity name="\App\Entity\Sample" owning-side="true" alias="samples" uuid="98dfe5b4-5bc2-4c8f-812b-7e1d5ea152f5"/>
+      <many-to-many-entity name="\App\Entity\Study" owning-side="false" alias="studies" uuid="58616f0e-4e5d-405b-89d7-38f8ac287515"/>
+    </many-to-many>
+    <entity name="\App\Entity\SampleType" local-name="SampleType" namespace="\App\Entity" uuid="6fc36435-2f98-412b-8b52-636184316b44">
+      <field name="id" type="integer" required="true" primary="true" uuid="30e3939f-e1dd-43bc-88db-96bd0df42111">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="051d4f0a-6e9a-46d1-b728-3f6259432db6"/>
+      <field name="description" type="string" size="255" uuid="740fa6c1-21a5-4db8-9b6e-ec6038537954"/>
+      <field name="createdAt" type="datetime" required="true" uuid="afe64fff-91d3-4b35-a247-fc589b08c751"/>
+      <field name="updatedAt" type="datetime" required="true" uuid="e722846b-933e-40c3-9d6c-a5b468a2a578"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SampleTypeRepository</attribute>
+        <attribute name="export-file-name">SampleType.php</attribute>
+        <attribute name="lifecycle-callbacks">
+          <attribute name="lifecycle-callback">
+            <attribute name="type">preUpdate</attribute>
+            <attribute name="method">updateTimestamps</attribute>
+          </attribute>
+          <attribute name="lifecycle-callback">
+            <attribute name="type">prePersist</attribute>
+            <attribute name="method">updateTimestamps</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Section" local-name="Section" namespace="\App\Entity" uuid="499631d8-38f5-4e8b-a064-87d2665791ce">
+      <field name="id" type="integer" required="true" primary="true" uuid="b22d8fef-1532-4927-875f-09922781cb5a">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="b41ff3bb-c05c-4129-ac32-3701a73f9dba"/>
+      <field name="description" type="text" uuid="c7829d40-16ec-43c1-a5b7-40918982faea"/>
+      <field name="experiment_id" required="true" uuid="6aad470b-2d05-4446-8b1f-6d4498a8f772"/>
+      <field name="template_id" uuid="77076a36-2b01-4d63-bb5f-b668a1589592"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SectionRepository</attribute>
+        <attribute name="export-file-name">Section.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Section" to="\App\Entity\Template" owner-alias="sections" inverse-alias="template" many-owner="true" many-inverse="false" uuid="229430e9-75b4-4c92-a858-84d872037a64">
+      <association-field from="template_id" to="id" uuid="7da1c88c-d91b-43bc-baf6-34cad2769bc9"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Section" to="\App\Entity\Experiment" owner-alias="sections" inverse-alias="experiment" many-owner="true" many-inverse="false" parent-required="true" uuid="50d27374-6d22-4064-9b51-75cb27474e8a">
+      <association-field from="experiment_id" to="id" uuid="50866264-903a-406a-ba3b-1e205dbec300"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\section_links" local-name="section_links" namespace="\App\Entity" uuid="0b9a14bd-cea5-4a68-991b-681dd164e038">
+      <field name="id" type="integer" required="true" unique="true" primary="true" uuid="447063f7-4c53-40f2-bbb2-7fed2c8db6ed"/>
+      <field name="Section_id" type="integer" uuid="0d0300d3-118e-4efc-a159-ecc1b009e7fa"/>
+      <field name="Link_id" type="integer" uuid="1591c03d-68d9-4a45-97d5-8f923dbea805"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\section_links" uuid="576b5744-f437-41dc-8159-14d1454c09c3">
+      <many-to-many-entity name="\App\Entity\Section" owning-side="true" uuid="6225c10c-82f4-4f80-8976-fcd514c28275">
+        <many-to-many-field from="Section_id" to="id" uuid="b856bdf9-eca5-4592-b655-25df2c2ec115"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Link" owning-side="false" alias="links" uuid="d0cf055e-36b2-4de9-892d-b5e2424d706c">
+        <many-to-many-field from="Link_id" to="id" uuid="3b80b3ff-7808-4d14-954b-57e0c77c883f"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Section" owning-side="true" uuid="a004c2dc-5a00-4fcb-befd-ac0af2a27a04"/>
+      <many-to-many-entity name="\App\Entity\Link" owning-side="false" alias="links" uuid="9a87534d-be6e-4567-854b-c5c9f70223c4"/>
+    </many-to-many>
+    <entity name="\App\Entity\Storage" local-name="Storage" namespace="\App\Entity" uuid="6a813a50-1e94-4289-8cf0-9a6efe882035">
+      <field name="id" type="integer" required="true" primary="true" uuid="986b4b11-db05-4911-8b24-e710514baa18">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="5bd1a8b3-e043-406c-9314-0d682bff50c4"/>
+      <field name="type" type="string" size="255" required="true" uuid="bfc2259c-ef5e-41f1-885f-28ac507838d9"/>
+      <field name="description" type="text" required="true" uuid="41374793-db1b-41cc-8298-693f57351f12"/>
+      <field name="storageType_id" required="true" uuid="43245e6c-2326-4d30-9cf7-42d206227264"/>
+      <field name="dimensions" type="string" size="255" uuid="0aae9049-b4f2-457a-b57d-3f8a76bfed20"/>
+      <field name="positionTaken" type="json" uuid="002720e5-f971-4387-acf8-1796cf626bc7"/>
+      <field name="gridType" type="string" size="255" uuid="66355c1e-3561-46f4-abcc-a4bb8831b417"/>
+      <field name="location_id" uuid="5f004ebc-15f5-4e31-a61c-c10fdd3627ba"/>
+      <field name="parent_id" uuid="317dd6ad-485b-4289-9f68-0540b7fc3601"/>
+      <field name="experiment_id" uuid="4710ad08-8964-4776-b39f-529a6e56407d"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\StorageRepository</attribute>
+        <attribute name="export-file-name">Storage.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Storage" to="\App\Entity\StorageType" owner-alias="storages" inverse-alias="storageType" many-owner="true" many-inverse="false" parent-required="true" uuid="66973ad5-cf7d-4ffa-8e27-fd6d100189d1">
+      <association-field from="storageType_id" to="id" uuid="70bdcea4-3308-44dc-8b7f-b6dbdcfa7f9b"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Storage" to="\App\Entity\Location" owner-alias="storages" inverse-alias="location" many-owner="true" many-inverse="false" uuid="89f07fcb-0484-408a-8683-82cab58ad6e5">
+      <association-field from="location_id" to="id" uuid="c935be7e-4fb6-4862-93bd-88d04a5c133b"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Storage" to="\App\Entity\Experiment" owner-alias="" inverse-alias="experiment" many-owner="true" many-inverse="false" uuid="4d99a5cd-4eee-4f48-bcd6-b619d3db04dd">
+      <association-field from="experiment_id" to="id" uuid="7986b65a-bd9a-4881-8a2d-28b7e89cbbc9"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <association from="\App\Entity\Storage" to="\App\Entity\self" owner-alias="" inverse-alias="parent" many-owner="true" many-inverse="false" uuid="18effd82-9be3-4fa3-a129-66f8f8383113">
+      <association-field from="parent_id" to="id" uuid="99fe626e-947f-4c11-af3b-d100d434128f"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\StorageType" local-name="StorageType" namespace="\App\Entity" uuid="62f23ed7-6ef6-4172-9a40-e6c7d02183fb">
+      <field name="id" type="integer" required="true" primary="true" uuid="bccd3091-8d7e-4896-87ee-fcf83054425d">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="91fe661d-889b-4a94-9d9e-ce3376e7946d"/>
+      <field name="description" type="text" uuid="597ebd99-024f-4480-bbc4-27183a1222ab"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\StorageTypeRepository</attribute>
+        <attribute name="export-file-name">StorageType.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Study" local-name="Study" namespace="\App\Entity" uuid="10d83b19-2b21-4790-854f-645dd885c2df">
+      <field name="id" type="integer" required="true" primary="true" uuid="3d117bd4-88f7-43ef-bfa2-3241a11c1732">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="e07017da-f71d-4f69-96fa-712d0a3a739f"/>
+      <field name="description" type="text" uuid="101e2a92-c9df-4a40-b775-81af98e46014"/>
+      <field name="startDate" type="datetime" required="true" uuid="e3902473-ec59-407f-a18b-f933ad9590ee"/>
+      <field name="endDate" type="datetime" uuid="51d248f3-30c8-4f20-9d53-009ea8a06a18"/>
+      <field name="leadResearcher_id" uuid="2cd0142e-ff1e-45f3-8dee-909d12b430fd"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\StudyRepository</attribute>
+        <attribute name="export-file-name">Study.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Study" to="\App\Entity\User" owner-alias="" inverse-alias="leadResearcher" many-owner="true" many-inverse="false" uuid="347445fb-2e92-45d4-9ab4-a02d4f791697">
+      <association-field from="leadResearcher_id" to="id" uuid="068bd9c7-015a-4eca-997a-0434e942092c"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Supplier" local-name="Supplier" namespace="\App\Entity" uuid="e637704c-d688-4bd0-bcd2-7e2c4c4d2bfa">
+      <field name="id" type="integer" required="true" primary="true" uuid="1f7ce588-b089-4313-a0c2-014a1561e01a">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="4ed469da-628b-4d20-b64b-3fcad1617540"/>
+      <field name="contact" type="string" size="255" required="true" uuid="3ef244c8-2b59-4233-9d7d-95a87a91d73c"/>
+      <field name="description" type="string" size="255" required="true" uuid="b02b0fab-ed83-4b6a-a028-b9f41a77e84d"/>
+      <field name="contactEmail" type="string" size="255" required="true" uuid="d68a7017-f754-402e-8936-4ec14cbe5fe6"/>
+      <field name="contactPhone" type="string" size="255" required="true" uuid="3145ac0a-3a7d-43c4-99e3-4e1545babf65"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SupplierRepository</attribute>
+        <attribute name="export-file-name">Supplier.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\SupplyOrder" local-name="SupplyOrder" namespace="\App\Entity" uuid="65b150eb-cc8b-4ed8-9f23-034d41a63b09">
+      <field name="id" type="integer" required="true" primary="true" uuid="4d3a1e72-a955-4dc4-bbfe-e9c7499c72ff">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="orderNumber" type="string" size="255" required="true" uuid="f2ecb958-7881-4aff-90a5-74745e14ae00"/>
+      <field name="orderDate" type="datetime" required="true" uuid="2d13b489-c320-427a-88b5-6ed582664c34"/>
+      <field name="status" type="string" size="255" required="true" uuid="3b5d8fab-9681-4654-bb88-bd58535a7b74"/>
+      <field name="orderedBy_id" uuid="716eefeb-5a31-4237-9ad8-181245378419"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SupplyOrderRepository</attribute>
+        <attribute name="export-file-name">SupplyOrder.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\SupplyOrder" to="\App\Entity\User" owner-alias="" inverse-alias="orderedBy" many-owner="true" many-inverse="false" uuid="d7f1dfe3-ac08-44fe-81fa-eb55cf3366fd">
+      <association-field from="orderedBy_id" to="id" uuid="85f223d0-ce26-431a-8730-c950ccdff75a"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\SupplyOrderItem" local-name="SupplyOrderItem" namespace="\App\Entity" uuid="fb538759-5d4f-489b-a77a-f0b51e15899e">
+      <field name="id" type="integer" required="true" primary="true" uuid="0224595b-82ed-48e2-a968-a4d4aac22c67">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="itemName" type="string" size="255" required="true" uuid="45902023-b398-40f0-86a8-aefce79bb2aa"/>
+      <field name="quantity" type="integer" required="true" uuid="4a8b842b-0c99-4f91-a454-89c5cedeb799"/>
+      <field name="price" type="decimal" required="true" uuid="c8ad5112-f5a1-4d2f-8e4b-1ebf4fa1b922">
+        <orm-attributes>
+          <attribute name="precision">10</attribute>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="supplyOrder_id" uuid="46187a76-d540-4504-86b1-a5a47aa3f625"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SupplyOrderItemRepository</attribute>
+        <attribute name="export-file-name">SupplyOrderItem.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\SupplyOrderItem" to="\App\Entity\SupplyOrder" owner-alias="items" inverse-alias="supplyOrder" many-owner="true" many-inverse="false" uuid="94b52dd4-37eb-41a4-9069-928c5ca43f7d">
+      <association-field from="supplyOrder_id" to="id" uuid="0c9aa9b6-fb5a-4a87-aa6c-264d6627eb91"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\SystemCapability" local-name="SystemCapability" namespace="\App\Entity" uuid="094cff89-790e-421e-a001-050d9d5023b9">
+      <field name="id" type="integer" required="true" primary="true" uuid="f675924e-cb9d-4262-a026-a0b7f548fa2a">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="143225b5-621c-4108-8869-9a83003f5f6d"/>
+      <field name="description" type="text" uuid="ef63c9ce-0daa-4629-bb49-d019d08fb57c"/>
+      <field name="isActive" type="boolean" required="true" uuid="2e8955fa-5ffc-4c6b-bfee-4af4a76372fe"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SystemCapabilityRepository</attribute>
+        <attribute name="export-file-name">SystemCapability.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\SystemSetting" local-name="SystemSetting" namespace="\App\Entity" uuid="db7c0304-48ec-41bd-bca9-86b84c0a7182">
+      <field name="id" type="integer" required="true" primary="true" uuid="881741a3-0ede-4db9-bc1c-286d321cfa67">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="d9c7b3de-dc55-4919-b720-f642dcc13bea"/>
+      <field name="value" type="text" required="true" uuid="f00b1414-50b1-4c7b-8080-a1a237e20b40"/>
+      <field name="description" type="string" size="255" uuid="a858aa3e-156d-4d3f-9801-1a90559d31a2"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\SystemSettingRepository</attribute>
+        <attribute name="export-file-name">SystemSetting.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Task" local-name="Task" namespace="\App\Entity" uuid="4e20f1bf-f4b3-4dea-8ffa-e8d21bcd80d8">
+      <field name="id" type="integer" required="true" primary="true" uuid="6954192a-50fa-4ba2-bc3e-4e78a1e95e32">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="title" type="string" size="255" required="true" uuid="2cf646e7-cebf-4a49-9275-a07b250eca1d"/>
+      <field name="description" type="text" required="true" uuid="57851652-5608-410c-a4b0-4269d5e2cdb9"/>
+      <field name="status" type="string" size="50" required="true" uuid="d3be013a-79c3-4ffb-9838-9d7933fa9709"/>
+      <field name="dueDate" type="datetime" uuid="2ce54db5-86a2-47e3-b293-a03b98242d28"/>
+      <field name="assignedTo_id" uuid="cd819668-eb8c-48cb-b8e3-bd838eef4351"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\TaskRepository</attribute>
+        <attribute name="export-file-name">Task.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Task" to="\App\Entity\User" owner-alias="tasks" inverse-alias="assignedTo" many-owner="true" many-inverse="false" uuid="be036e5c-4e7f-43c3-85e7-3fd2e3d3c244">
+      <association-field from="assignedTo_id" to="id" uuid="2214a07e-8368-407c-9151-3f0171355f38"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\TaskManagement" local-name="TaskManagement" namespace="\App\Entity" uuid="2da9de61-d8a1-49d6-8c16-ac905e376bf0">
+      <field name="id" type="integer" required="true" primary="true" uuid="7917f0f4-e89d-429c-9027-5e3ce848ecaf">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="taskName" type="string" size="255" required="true" uuid="b0666626-385f-4d26-83dc-f728c28cf772"/>
+      <field name="description" type="text" uuid="8f241263-e04b-4fc5-86fa-c28929cace1a"/>
+      <field name="dueDate" type="datetime" uuid="6ad78925-b25f-41a7-a5c3-6e4a2e710857"/>
+      <field name="assignedTo_id" uuid="fb287960-0b55-44ab-b017-31d709022bff"/>
+      <field name="title" type="string" size="255" required="true" uuid="593b913a-1146-4d7c-842c-44a274f80c29"/>
+      <field name="status" type="string" size="255" required="true" uuid="25049557-3d88-4ec3-91d0-def930cf70b0"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\TaskManagementRepository</attribute>
+        <attribute name="export-file-name">TaskManagement.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\TaskManagement" to="\App\Entity\User" owner-alias="" inverse-alias="assignedTo" many-owner="true" many-inverse="false" uuid="87347873-3cd4-414b-a19e-b735937cf79a">
+      <association-field from="assignedTo_id" to="id" uuid="3a628395-5699-4f61-a17d-658759ad381f"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\Template" local-name="Template" namespace="\App\Entity" uuid="426aa6eb-0e8a-464d-864d-8f6992b01bff">
+      <field name="id" type="integer" required="true" primary="true" uuid="9fa793bd-9f89-4fe3-bf49-97bc1abc29fe">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="255" required="true" uuid="9e67ed92-b8df-4358-bb87-4247021ab1df"/>
+      <field name="description" type="text" uuid="59a419ad-d67c-455b-bc4a-46bbc0e440ef"/>
+      <field name="content" type="text" uuid="709078e7-6ded-474d-b790-3c1756380681"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\TemplateRepository</attribute>
+        <attribute name="export-file-name">Template.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\TimeZone" local-name="TimeZone" namespace="\App\Entity" uuid="9803a957-ec33-487b-8057-340ab29bc1e1">
+      <field name="id" type="integer" required="true" primary="true" uuid="1bd2ad71-3f9c-4037-8adc-75b78e2de5d1">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="name" type="string" size="100" required="true" uuid="239374d3-661e-4e0c-9c55-629d0d8db6f5"/>
+      <field name="offset" type="string" size="10" required="true" uuid="fa021649-e1a7-4f75-9642-447d0e361b2b"/>
+      <field name="isDefault" type="boolean" required="true" uuid="f1301d3b-0114-4f98-b45d-4aafdef19ffb"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\TimeZoneRepository</attribute>
+        <attribute name="export-file-name">TimeZone.php</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\User" local-name="User" namespace="\App\Entity" uuid="22485ead-3fa2-411d-89c4-e08f05bdaba9">
+      <field name="id" type="integer" required="true" primary="true" uuid="ad47de2e-3ab8-449f-9e58-798ada1f094c">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="email" type="string" size="255" unique="true" unsigned="true" uuid="05b0b922-96db-4162-a924-91903f68f220"/>
+      <field name="roles" type="array" uuid="38ab6b95-3a40-4589-9ca6-93afd3da1038"/>
+      <field name="password" type="string" uuid="5aaa233f-925b-41bf-83f1-073b22b6f3a8"/>
+      <field name="firstName" type="string" size="255" uuid="60f99ffd-308a-44c0-82b6-c1b0690b7994"/>
+      <field name="lastName" type="string" size="255" uuid="1a6ff4c6-5958-4b84-a048-fbdf5f5f53f9"/>
+      <field name="organisation_id" uuid="72a7b5a0-21ec-4aeb-8063-4738ea2941c1"/>
+      <field name="salutation" type="string" uuid="4d2fdc70-269b-4b17-834a-d37e6594ee40"/>
+      <field name="isVerified" type="boolean" uuid="a7ab8c8e-683f-4c25-acce-f12af7fa755e"/>
+      <field name="enabled" type="boolean" uuid="f83cfafa-8667-42bb-af2f-56760973245a"/>
+      <field name="removedAt" type="datetime" uuid="12640ad1-027f-49cf-b66e-bf95b7560155"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\UserRepository</attribute>
+        <attribute name="export-file-name">User.php</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\User" to="\App\Entity\Organisation" owner-alias="" inverse-alias="organisation" many-owner="true" many-inverse="false" uuid="4889a316-59e5-42e4-9481-68926017be13">
+      <association-field from="organisation_id" to="id" uuid="34e4572d-eb74-42ba-af05-9d616206594e"/>
+      <orm-attributes>
+        <attribute name="side-owning"/>
+        <attribute name="side-inverse"/>
+      </orm-attributes>
+    </association>
+    <entity name="\App\Entity\ResetPassword" local-name="ResetPassword" namespace="\App\Entity" uuid="9fc4014f-f64d-4bc2-8f82-0e5d37aefaee">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="c2e28d19-df0a-4364-a2a9-049eac034280"/>
+      <field name="email" type="string" size="255" required="true" uuid="23f01d1f-8325-4fb2-9c57-8884605d3e3e"/>
+      <field name="otp" type="string" size="255" uuid="17052aeb-e203-422c-8f5d-babcbb4ce2a8"/>
+      <field name="createdAt" type="datetime_immutable" required="true" uuid="052d3fe6-634c-4f22-9b91-61b41bd46c65"/>
+      <field name="expiresAt" type="datetime_immutable" uuid="0c5c6e16-1deb-4877-b3c9-3a21f225215b"/>
+      <orm-attributes>
+        <attribute name="table">reset_password</attribute>
+        <attribute name="export-file-name">ResetPassword.php</attribute>
+      </orm-attributes>
+    </entity>
+  </module>
+  <module name="\tmp" local-name="tmp" namespace="\" uuid="806f9b98-1ab8-4e40-9554-8fbd1963ec0e">
+    <entity name="\App\Entity\self" local-name="self" namespace="\App\Entity" local-namespace="\App\Entity" uuid="532bf0c1-2a0f-482f-b5cb-b2d2e9fbd289">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="d26c3243-6573-4db9-b2e9-9f79595cc810"/>
+    </entity>
+  </module>
+  <visual-data>
+    <association uuid="0148b5e2-1bd7-4968-8e53-abd4f9348ada" color="#969696"/>
+    <association uuid="18effd82-9be3-4fa3-a129-66f8f8383113" color="#B31F24"/>
+    <association uuid="229430e9-75b4-4c92-a858-84d872037a64" color="#C774AF"/>
+    <association uuid="347445fb-2e92-45d4-9ab4-a02d4f791697" color="#00B4D0"/>
+    <association uuid="3c97ed36-b9b7-41a8-ab5a-9c120f10f2e4" color="#0A783D"/>
+    <association uuid="3dc993cc-5f00-4b91-8d0b-0fe6b5f5a348" color="#8A54A2"/>
+    <association uuid="3df520a0-05f0-405b-bcc8-3120d33614ba" color="#2E63AF"/>
+    <association uuid="4170d0e8-500a-4ed2-9ceb-2ef249fe0d2b" color="#CDC32B"/>
+    <association uuid="423da26a-3d5d-45e7-b7ee-c7293a5cd913" color="#B31F24"/>
+    <association uuid="4889a316-59e5-42e4-9481-68926017be13" color="#F4931F"/>
+    <association uuid="4d99a5cd-4eee-4f48-bcd6-b619d3db04dd" color="#F4931F"/>
+    <association uuid="50d27374-6d22-4064-9b51-75cb27474e8a" color="#8A54A2"/>
+    <association uuid="61f0a737-ac0f-4fd5-aa7c-b40f14663fe0" color="#0A783D"/>
+    <association uuid="63abb40e-6021-4f21-a8ef-9038201191a7" color="#B31F24"/>
+    <association uuid="66973ad5-cf7d-4ffa-8e27-fd6d100189d1" color="#2E63AF"/>
+    <association uuid="87347873-3cd4-414b-a19e-b735937cf79a" color="#CDC32B"/>
+    <association uuid="89f07fcb-0484-408a-8683-82cab58ad6e5" color="#CDC32B"/>
+    <association uuid="9310d023-3144-4237-9497-752783e6b92f" color="#F4931F"/>
+    <association uuid="94b52dd4-37eb-41a4-9069-928c5ca43f7d" color="#0A783D"/>
+    <association uuid="966d7d4d-a0e3-4418-8898-707c77d786cb" color="#0A783D"/>
+    <association uuid="a25348b8-ab8f-4072-970d-4ce9e4b0c035" color="#F4931F"/>
+    <association uuid="a5b41fd6-7ac6-44b1-a9b8-90ead5e709ed" color="#C774AF"/>
+    <association uuid="aeb8a8fd-263e-4445-b9f7-942f731aa44b" color="#00B4D0"/>
+    <association uuid="be036e5c-4e7f-43c3-85e7-3fd2e3d3c244" color="#61D351"/>
+    <association uuid="be572dcb-c78e-4033-9be8-8912bdd5a2cc" color="#61D351"/>
+    <association uuid="c901361b-a8aa-4c3b-979e-cdaad7b4e677" color="#A8A8A8"/>
+    <association uuid="d7f1dfe3-ac08-44fe-81fa-eb55cf3366fd" color="#A8A8A8"/>
+    <association uuid="f2f9a291-ea3f-4d00-888b-fdc6c05ce872" color="#61D351"/>
+    <association uuid="f93e595f-6019-4538-abea-bc7131a31e9a" color="#CDC32B"/>
+    <association uuid="fbeb84a8-c3b8-4ddb-9f72-f15d3f71069a" color="#61D351"/>
+    <entity uuid="06778876-e485-4bc2-87f7-80d35ccfb453" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1272" position-y="294" size-x="0" size-x2="70" size-y="0" size-y2="31"/>
+    <entity uuid="094cff89-790e-421e-a001-050d9d5023b9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="728" position-y="589" size-x="0" size-x2="101" size-y="0" size-y2="73"/>
+    <entity uuid="0b9a14bd-cea5-4a68-991b-681dd164e038" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="553" position-y="406" size-x="0" size-x2="105" size-y="0" size-y2="59"/>
+    <entity uuid="10d83b19-2b21-4790-854f-645dd885c2df" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="32" position-y="589" size-x="0" size-x2="109" size-y="0" size-y2="101"/>
+    <entity uuid="14c95c78-fcdc-4161-a2e9-63890bec5b79" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1245" position-y="167" size-x="0" size-x2="125" size-y="0" size-y2="87"/>
+    <entity uuid="215828b6-593c-4b19-8346-5394d8787218" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="382" position-y="40" size-x="0" size-x2="101" size-y="0" size-y2="73"/>
+    <entity uuid="22485ead-3fa2-411d-89c4-e08f05bdaba9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="718" position-y="772" size-x="0" size-x2="120" size-y="0" size-y2="115"/>
+    <entity uuid="2da9de61-d8a1-49d6-8c16-ac905e376bf0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="199" position-y="772" size-x="0" size-x2="121" size-y="0" size-y2="87"/>
+    <entity uuid="38abe722-c033-4d0a-aa17-1b50da2b7036" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="36" position-y="40" size-x="0" size-x2="101" size-y="0" size-y2="101"/>
+    <entity uuid="426aa6eb-0e8a-464d-864d-8f6992b01bff" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="382" position-y="772" size-x="0" size-x2="101" size-y="0" size-y2="59"/>
+    <entity uuid="4362d3c1-bb3a-4fc1-be28-d0e04b8d42fe" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1278" position-y="421" size-x="0" size-x2="58" size-y="0" size-y2="20"/>
+    <entity uuid="43ceb680-03c0-498f-ab61-30b41640def7" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="203" position-y="223" size-x="0" size-x2="112" size-y="0" size-y2="143"/>
+    <entity uuid="43f92689-3fa8-4893-9ddc-5b183ca9a6c4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1063" position-y="40" size-x="0" size-x2="123" size-y="0" size-y2="73"/>
+    <entity uuid="499631d8-38f5-4e8b-a064-87d2665791ce" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="382" position-y="406" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
+    <entity uuid="4daa0998-f759-4443-9f27-91f0ec72d25b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="728" position-y="223" size-x="0" size-x2="101" size-y="0" size-y2="73"/>
+    <entity uuid="4e20f1bf-f4b3-4dea-8ffa-e8d21bcd80d8" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="34" position-y="772" size-x="0" size-x2="105" size-y="0" size-y2="101"/>
+    <entity uuid="4ed4b0d4-713b-480e-beba-e9906df0d5dd" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="36" position-y="223" size-x="0" size-x2="101" size-y="0" size-y2="73"/>
+    <entity uuid="52ee8cd9-bcf2-4667-b913-2f19fbfa01de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="205" position-y="955" size-x="0" size-x2="108" size-y="0" size-y2="45"/>
+    <entity uuid="532bf0c1-2a0f-482f-b5cb-b2d2e9fbd289" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="20" position-y="40" size-x="0" size-x2="76" size-y="0" size-y2="31"/>
+    <entity uuid="54a79e23-82f3-4c4c-b9a0-54781a41d5e5" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="897" position-y="223" size-x="0" size-x2="109" size-y="0" size-y2="101"/>
+    <entity uuid="587b34ea-1c69-452e-b6b5-5bc4de03ef38" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="550" position-y="223" size-x="0" size-x2="111" size-y="0" size-y2="59"/>
+    <entity uuid="5d4c550a-66de-4211-ada3-4c5f66526ff5" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1091" position-y="548" size-x="0" size-x2="66" size-y="0" size-y2="20"/>
+    <entity uuid="60b490b1-753c-42d5-b37b-875a6f9b690f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1062" position-y="294" size-x="0" size-x2="125" size-y="0" size-y2="31"/>
+    <entity uuid="62f23ed7-6ef6-4172-9a40-e6c7d02183fb" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="901" position-y="406" size-x="0" size-x2="101" size-y="0" size-y2="59"/>
+    <entity uuid="65b150eb-cc8b-4ed8-9f23-034d41a63b09" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="366" position-y="589" size-x="0" size-x2="132" size-y="0" size-y2="87"/>
+    <entity uuid="666aa682-8735-40d9-8c36-127bd1545417" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1236" position-y="40" size-x="0" size-x2="143" size-y="0" size-y2="31"/>
+    <entity uuid="6a371ff8-a3e4-4921-9fde-c874004261f0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="718" position-y="40" size-x="0" size-x2="121" size-y="0" size-y2="59"/>
+    <entity uuid="6a813a50-1e94-4289-8cf0-9a6efe882035" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="728" position-y="406" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
+    <entity uuid="6fc36435-2f98-412b-8b52-636184316b44" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="198" position-y="406" size-x="0" size-x2="123" size-y="0" size-y2="87"/>
+    <entity uuid="89d6fefe-ec95-4986-b3ec-7ac95686bc0c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="891" position-y="772" size-x="0" size-x2="121" size-y="0" size-y2="45"/>
+    <entity uuid="904d7fdf-a2e9-4cae-b7a1-1093a2608a42" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="894" position-y="40" size-x="0" size-x2="114" size-y="0" size-y2="115"/>
+    <entity uuid="912946aa-a143-491c-99f1-f31c7c783aeb" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="369" position-y="223" size-x="0" size-x2="127" size-y="0" size-y2="101"/>
+    <entity uuid="9185474d-d465-43a2-ba60-82e2dc2d3f2d" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="30" position-y="406" size-x="0" size-x2="112" size-y="0" size-y2="115"/>
+    <entity uuid="9803a957-ec33-487b-8057-340ab29bc1e1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="553" position-y="772" size-x="0" size-x2="104" size-y="0" size-y2="73"/>
+    <entity uuid="98d7b330-89e6-4cd8-ac8f-83841a8fc448" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1080" position-y="167" size-x="0" size-x2="88" size-y="0" size-y2="31"/>
+    <entity uuid="9fc4014f-f64d-4bc2-8f82-0e5d37aefaee" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1102" position-y="656" size-x="0" size-x2="100" size-y="0" size-y2="59"/>
+    <entity uuid="a119113a-f91d-4bca-b659-7af72caa728a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="193" position-y="40" size-x="0" size-x2="133" size-y="0" size-y2="115"/>
+    <entity uuid="a3e6c5b0-12fb-4386-8245-11c4c7ff7e03" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1084" position-y="421" size-x="0" size-x2="80" size-y="0" size-y2="20"/>
+    <entity uuid="a998dc5b-ab34-413b-afd0-7dd6890d000c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="34" position-y="955" size-x="0" size-x2="105" size-y="0" size-y2="45"/>
+    <entity uuid="b115d624-7ca3-4ca5-ab2e-dee91ca79d2b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="545" position-y="40" size-x="0" size-x2="121" size-y="0" size-y2="59"/>
+    <entity uuid="db7c0304-48ec-41bd-bca9-86b84c0a7182" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="890" position-y="589" size-x="0" size-x2="123" size-y="0" size-y2="73"/>
+    <entity uuid="e637704c-d688-4bd0-bcd2-7e2c4c4d2bfa" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="205" position-y="589" size-x="0" size-x2="109" size-y="0" size-y2="59"/>
+    <entity uuid="fb538759-5d4f-489b-a77a-f0b51e15899e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="545" position-y="589" size-x="0" size-x2="121" size-y="0" size-y2="87"/>
+    <many-to-many-association uuid="04aaf71f-c47a-452b-82d9-bc8cb5d0f87a" color="#00B4D0"/>
+    <many-to-many-association uuid="1d986d18-928b-4380-8981-dfa6c5635e00" color="#C774AF"/>
+    <many-to-many-association uuid="2caa5c13-0735-43fb-87fb-26d69cc55ed9" color="#00B4D0"/>
+    <many-to-many-association uuid="4ab7a2cc-07a7-4e30-888b-e4c46ea430d7" color="#2E63AF"/>
+    <many-to-many-association uuid="576b5744-f437-41dc-8159-14d1454c09c3" color="#8A54A2"/>
+    <many-to-many-association uuid="5828e994-55da-44bd-829c-32c134b02fa6" color="#8A54A2"/>
+    <many-to-many-association uuid="786ea790-7297-43f1-bcea-439f780e019b" color="#A8A8A8"/>
+    <many-to-many-association uuid="78ef3499-d0ea-4830-a6a4-576f4c41fd60" color="#2E63AF"/>
+    <many-to-many-association uuid="7c5c7998-b460-435e-89aa-a057bb5f8bda" color="#A8A8A8"/>
+    <many-to-many-association uuid="80453211-d51a-4a5d-ad18-fb1cbc66a41d" color="#61D351"/>
+    <many-to-many-association uuid="81a8be09-63de-43e8-8eb2-568c394ceac8" color="#B31F24"/>
+    <many-to-many-association uuid="942e1cd7-a4c4-4b4f-a4cc-f17268a78c92" color="#0A783D"/>
+    <many-to-many-association uuid="add69e77-8751-4623-9e2f-62fa34cba957" color="#C774AF"/>
+    <module uuid="806f9b98-1ab8-4e40-9554-8fbd1963ec0e" bg-color="#FEFCE8" position-x="1549" position-y="50" size-x="0" size-x2="116" size-y="0" size-y2="100"/>
+    <module uuid="c4b9400f-f2c6-4215-94ac-8a5e853e0a8a" bg-color="#FEFCE8" position-x="50" position-y="50" size-x="0" size-x2="1399" size-y="0" size-y2="1118"/>
+    <project uuid="9f968a53-a1d6-4b0e-85f8-2d85f11f599b" size-x="0" size-x2="1715" size-y="0" size-y2="1218"/>
+  </visual-data>
+</skipper>

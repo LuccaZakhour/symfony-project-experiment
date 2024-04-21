@@ -1,0 +1,13 @@
+
+
+{% if field.value is not iterable and field.value matches '/^\\d+x\\d+$/' %}
+
+{% elseif field.value is iterable %}
+    {% set row = field.value[0] %}
+    {% set column = field.value[0] %}
+    {% set rowAndColumnValue = row ~ 'x' ~ column %}
+
+    {% include 'admin/field/partial/grid_elements.html.twig' with {'rowAndColumnValue': rowAndColumnValue} %}
+{% else %}
+    {{ field.value }}
+{% endif %}

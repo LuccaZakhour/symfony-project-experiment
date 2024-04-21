@@ -1,0 +1,38 @@
+<div id="add-custom-field-form" class="border border-primary mt-1 mb-3 p-3">
+        <h2 class="h5">Add Custom Field</h2>
+        <div class="form-group">
+            <label for="field-type">Field Type</label>
+            <select id="field-type" class="form-control">
+                <option value="text">Text</option>
+                <option value="long_text">Long Text</option>
+                <option value="number">Number</option>
+                <option value="date">Date</option>
+                <option value="datetime">Datetime</option>
+                <option value="dropdown">Dropdown</option>
+                <option value="radio">Radio</option>
+                <option value="checkbox">Checkbox</option>
+                <!-- Add other types as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field-name">Field Name</label>
+            <input type="text" id="field-name" class="form-control" placeholder="Field Name" />
+        </div>
+        <div class="form-group">
+            <label for="field-required">Required</label>
+            <input type="checkbox" id="field-required" class="form-check-input" />
+        </div>
+        <div id="field-options-container" class="form-group">
+            <!-- Field-specific options will be dynamically inserted here -->
+        </div>
+        <button type="button" id="add-custom-field" class="btn btn-primary">Add Field</button>
+    </div>
+
+    <div id="custom-fields-container" class="border border-secondary mt-1 mb-3 p-3">
+        <h2 class="h5">Custom Fields</h2>
+        <!-- Dynamically added custom fields will be displayed here -->
+    </div>
+
+    <textarea id="customFieldsJson" class="custom-fields-json" style="display:none;"></textarea>
+
+</div>

@@ -1,0 +1,52 @@
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sectionNames = document.querySelectorAll('.section');
+    const fixedHeader = document.getElementById('fixedSectionName');
+    const currentSectionName = document.getElementById('currentSectionName');
+
+    window.addEventListener('scroll', () => {
+        let currentSection = "";
+        let headerShouldBeVisible = false;
+
+        sectionNames.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const sectionTopVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+            const sectionPartiallyVisible = rect.top < window.innerHeight * 0.2 && rect.bottom >= 0;
+            if (sectionPartiallyVisible) {
+                currentSection = section.textContent;
+                headerShouldBeVisible = true;
+            }
+            // Check if we are above the first section to hide the header
+            if (index === 0 && rect.top > 50) {
+                headerShouldBeVisible = false;
+            }
+        });
+
+        if (currentSection !== "" && headerShouldBeVisible) {
+            fixedHeader.style.display = "block";
+            currentSectionName.textContent = currentSection;
+        } else {
+            fixedHeader.style.display = "none";
+        }
+    });
+});
+</script>
+
+
+
+<style>
+#fixedSectionName {
+    /* Existing styles */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add drop shadow */
+}
+
+/* Hide all labels in EasyAdmin detail view */
+.field-group.field-collection > .field-label {
+    display: none;
+}
+
+</style>

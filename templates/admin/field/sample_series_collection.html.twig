@@ -1,0 +1,78 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{# this is a bit ugly, but Twig doesn't have a 'is numeric' test #}
+{% if field.formattedValue matches '/^\\d+$/' %}
+    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
+{% else %}
+
+    <div class="field-value">
+        <div class="container ps-0 pe-0 ms-0 me-0 mt-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Barcode</th>
+                        <th>Position</th>
+                        <th>Storage</th>
+                        <th>Actions</th> <!-- Additional header for actions like view/edit -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sample in entity.instance.samples %}
+                        {% set detailUrl = path('admin', {
+                                            'crudControllerFqcn': 'App\\Controller\\Admin\\SampleCrudController',
+                                            'crudAction': 'detail',
+                                            'entityId': sample.id
+                                        }) %}
+
+                        {% set detailUrlStorageId = path('admin', {
+                                            'crudControllerFqcn': 'App\\Controller\\Admin\\StorageCrudController',
+                                            'crudAction': 'detail',
+                                            'entityId': sample.storage.id
+                                        }) %}
+                        
+                        <tr>
+                            <td>
+                                <a href="{{ detailUrl }}">
+                                    {{ sample.name }}
+                                </a>
+                            </td>
+                            <td data-column="barcode"><span>{{ sample.barcode }}</span></td>
+                            <td>{{ sample.position }}</td>
+                            <td>
+                                <a href="{{ detailUrlStorageId }}">{{ sample.storage }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ detailUrl }}">Detail</a>
+                                         | 
+                                <a href="{{ path('admin', {
+                                            'crudControllerFqcn': 'App\\Controller\\Admin\\SampleCrudController',
+                                            'crudAction': 'edit',
+                                            'entityId': sample.id
+                                        }) }}">Edit</a>
+
+                                <!-- Adjust the 'path' function above as needed for your routing setup -->
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {% for action in entity.actions %}
+                                        {{ include(action.templatePath, { action: action, entity: entity, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const elements = document.querySelectorAll('.field-label');
+        elements.forEach(el => el.remove());
+    });
+    </script>
+
+
+{% endif %}

@@ -1,0 +1,63 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Dotenv\Dotenv;
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\ErrorHandler\Debug;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+if (!isset($_SERVER['APP_ENV'])) {
+    if (!class_exists(Dotenv::class)) {
+        throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
+    }
+    (new Dotenv())->load(__DIR__ . '/../.env');
+}
+
+$clients = (require __DIR__ . '/../config/getClients.php');
+$dir = realpath(__DIR__ . '/..');
+
+$client = $clients[$argv[1]];
+$_ENV['CLIENT_ID'] = $argv[1];
+
+if (!$client) {
+    echo 'Client not found' . PHP_EOL;
+    exit;
+}
+
+unset($argv[1]);
+
+try {
+    putenv("DATABASE_URL=mysql://{$client['user']}:{$client['password']}@{$client['host']}:3306/{$client['database']}");
+    //putenv("APP_ENV=dev");
+
+    #$_SERVER['HTTP_X_CLIENT'] = $_SERVER['argv'][1];
+
+    if (isset($_SERVER['argv'][1])) {
+        unset($_SERVER['argv'][1]);
+        $_SERVER['argv'] = array_values( $_SERVER['argv'] );
+    }
+
+    $input = new ArgvInput();
+    $env = $input->getParameterOption(['--env', '-e'], $_SERVER['APP_ENV'] ?? 'dev', true);
+    $debug = (bool)($_SERVER['APP_DEBUG'] ?? ('prod' !== $env)) && !$input->hasParameterOption('--no-debug', true);
+
+    if ($debug) {
+        umask(0000);
+
+        if (class_exists(Debug::class)) {
+            Debug::enable();
+        }
+    }
+
+    $kernel = new Kernel($env, $debug);
+    $application = new Application($kernel);
+    $application->run($input);
+
+
+    echo 'OK' . PHP_EOL;
+} catch (\Exception $e) {
+    echo 'ERROR' . PHP_EOL;
+}

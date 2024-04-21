@@ -1,0 +1,16 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+sample_create:
+    path: /sample/create
+    controller: App\Controller\SampleController::createEntity
+    methods: [ POST ]
+
+api_demo_register:
+    path: /api/demo_register/register
+    controller: App\Controller\DemoRegisterController::register
+    methods: [POST]
+

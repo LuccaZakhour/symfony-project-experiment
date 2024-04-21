@@ -1,0 +1,10 @@
+easy_admin:
+    design:
+        # other design configurations
+        list:
+            # Set default column sizes for list view
+            defaultColumns: 'col-md-12 col-xxl-12'
+        form_theme:
+            - '@EasyAdmin/form/bootstrap_4.html.twig'
+            - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+

@@ -1,0 +1,39 @@
+
+
+{% set uniqueId = 'gridModal' ~ random() %}
+{% set takenPositionsJson = entity.instance.positionTaken|json_encode %}
+
+<script>
+    window.takenPositionsWindow = window.takenPositionsWindow || {};
+    window.takenPositionsWindow.{{ uniqueId|raw }} = JSON.parse('{{ takenPositionsJson|raw }}');
+</script>
+
+<!-- Button to trigger modal -->
+<button type="button" class="btn btn-primary grid-modal-trigger" data-bs-toggle="modal" data-bs-target="#{{ uniqueId }}">
+    Show Grid
+</button>
+
+<!-- Modal -->
+<div class="modal fade grid-modal" id="{{ uniqueId }}" tabindex="-1" aria-labelledby="{{ uniqueId }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{ uniqueId }}Label">Grid</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="grid-container" data-dimensions="{{ rowAndColumnValue }}">
+                    <!-- Your custom grid HTML goes here -->
+                    <!-- ... existing controls and gridContainer ... -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Custom CSS and JavaScript for the grid -->
+<link rel="stylesheet" href="{{ asset('admin/css/grid-style.css') }}">
+<script src="{{ asset('admin/js/grid-script.js') }}"></script>
+
+
